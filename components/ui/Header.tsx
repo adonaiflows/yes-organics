@@ -1,5 +1,5 @@
 import { BookButton } from "./BookDialog";
-import { Wordmark } from "./Wordmark";
+import { Logo } from "./Logo";
 
 const nav = [
   { href: "#services", label: "Services" },
@@ -13,7 +13,7 @@ export function Header() {
     <header className="fixed inset-x-0 top-0 z-40 border-b border-juniper/10 bg-cream/85 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 md:px-8">
         <a href="#top" className="shrink-0">
-          <Wordmark />
+          <Logo />
         </a>
         <nav aria-label="Main" className="hidden md:block">
           <ul className="flex gap-8 text-[0.95rem]">
