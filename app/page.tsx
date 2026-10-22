@@ -3,9 +3,16 @@ import { BookButton } from "@/components/ui/BookDialog";
 import { ServiceMenu } from "@/components/ui/ServiceMenu";
 import { Ticker } from "@/components/ui/Ticker";
 import { Reveal } from "@/components/ui/Reveal";
-import { Wordmark } from "@/components/ui/Wordmark";
+import { Footer } from "@/components/ui/Footer";
+import { ProductCard } from "@/components/ui/ProductCard";
+import { products } from "@/lib/products";
 import { HeroVisual } from "@/components/three/HeroVisual";
 import { links, locations, policy, reviews, specials, team } from "@/lib/site";
+
+// A few of the shop's own handmade products for the home page.
+const featured = ["Healing Salve", "Facial Oil", "Flower Power Toner", "Golden Glow Balm"]
+  .map((n) => products.find((p) => p.name === n))
+  .filter((p) => p !== undefined);
 
 const pillars = [
   {
@@ -239,8 +246,8 @@ export default function Home() {
                 curbside? Call {locations[0].phone} to set a pickup time.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href={links.shop} target="_blank" rel="noopener" className="inline-flex min-h-12 items-center rounded-full bg-clay-deep px-7 font-medium text-cream transition-colors hover:bg-juniper">
-                  Shop online
+                <a href="/shop" className="inline-flex min-h-12 items-center rounded-full bg-clay-deep px-7 font-medium text-cream transition-colors hover:bg-juniper">
+                  Shop the apothecary
                 </a>
                 <a href={links.etsy} target="_blank" rel="noopener" className="inline-flex min-h-12 items-center rounded-full border border-juniper/25 px-6 transition-colors hover:border-juniper">
                   Our Etsy shop
@@ -263,6 +270,21 @@ export default function Home() {
                 </ul>
               </div>
             </div>
+          </div>
+          <div className="mt-16" data-reveal>
+            <div className="flex items-end justify-between gap-4">
+              <h3 className="font-display text-2xl md:text-3xl">From the apothecary</h3>
+              <a href="/shop" className="shrink-0 text-[0.95rem] font-medium text-clay-deep">
+                See all {products.length} products <span aria-hidden>&rarr;</span>
+              </a>
+            </div>
+            <ul className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+              {featured.map((p) => (
+                <li key={p.url}>
+                  <ProductCard product={p} />
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 
@@ -351,34 +373,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="bg-juniper text-cream">
-        <div className="mx-auto max-w-7xl px-4 py-20 md:px-8">
-          <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
-            <h2 className="max-w-xl font-display text-4xl tracking-tight md:text-6xl">
-              Make time <span className="italic text-[#e6a585]">for yourself.</span>
-            </h2>
-            <BookButton variant="light" />
-          </div>
-          <div className="mt-16 flex flex-col justify-between gap-8 border-t border-cream/15 pt-8 text-sm text-cream/70 md:flex-row">
-            <Wordmark light />
-            <ul className="flex flex-wrap gap-6">
-              <li>
-                <a href={links.instagram} target="_blank" rel="noopener" className="hover:text-cream">Instagram</a>
-              </li>
-              <li>
-                <a href={links.facebook} target="_blank" rel="noopener" className="hover:text-cream">Facebook</a>
-              </li>
-              <li>
-                <a href={links.shop} target="_blank" rel="noopener" className="hover:text-cream">Shop</a>
-              </li>
-              <li>
-                <a href={links.giftSpa} target="_blank" rel="noopener" className="hover:text-cream">Gift certificates</a>
-              </li>
-            </ul>
-            <p>&copy; {new Date().getFullYear()} Yes Organic Boutique &amp; Spa</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
