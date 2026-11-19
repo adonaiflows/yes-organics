@@ -1,6 +1,8 @@
 import { BookButton } from "./BookDialog";
 import { Wordmark } from "./Wordmark";
+import Link from "next/link";
 import { links } from "@/lib/site";
+import { nav } from "@/lib/nav";
 
 export function Footer() {
   return (
@@ -14,15 +16,23 @@ export function Footer() {
         </div>
         <div className="mt-16 flex flex-col justify-between gap-8 border-t border-cream/15 pt-8 text-sm text-cream/70 md:flex-row">
           <Wordmark light />
+          <nav aria-label="Footer">
+            <ul className="flex flex-wrap gap-x-6 gap-y-3">
+              {nav.map((n) => (
+                <li key={n.href}>
+                  <Link href={n.href} className="hover:text-cream">
+                    {n.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
           <ul className="flex flex-wrap gap-6">
             <li>
               <a href={links.instagram} target="_blank" rel="noopener" className="hover:text-cream">Instagram</a>
             </li>
             <li>
               <a href={links.facebook} target="_blank" rel="noopener" className="hover:text-cream">Facebook</a>
-            </li>
-            <li>
-              <a href="/shop" className="hover:text-cream">Shop</a>
             </li>
             <li>
               <a href={links.giftSpa} target="_blank" rel="noopener" className="hover:text-cream">Gift certificates</a>

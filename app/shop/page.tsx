@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/ui/Header";
-import { Footer } from "@/components/ui/Footer";
+import { pageMeta } from "@/lib/seo";
+import { PageShell } from "@/components/ui/PageShell";
+import { NextLink } from "@/components/ui/blocks";
 import { BookButton } from "@/components/ui/BookDialog";
 import { ShopGrid } from "@/components/ui/ShopGrid";
 import { SQUARE_STORE, products } from "@/lib/products";
@@ -10,22 +11,11 @@ const title = "Shop Organic Skincare & Apothecary | Yes Organic Boutique & Spa";
 const description =
   "Handmade organic balms, salves, oils and toners, plus Eminence Organic Skin Care, from Yes Organic Boutique & Spa in Albuquerque. Shop online or pick up curbside.";
 
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: { canonical: "/shop" },
-  openGraph: { title, description, url: "/shop", images: [{ url: "/og.png", width: 1200, height: 630, alt: "Yes Organic Boutique & Spa" }] },
-};
+export const metadata: Metadata = pageMeta("/shop", title, description);
 
 export default function Shop() {
   return (
-    <>
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-juniper focus:px-4 focus:py-2 focus:text-cream">
-        Skip to content
-      </a>
-      <Header base="/" />
-
-      <main id="main" className="pt-16">
+    <PageShell>
         <section className="mx-auto max-w-7xl px-4 pt-12 pb-10 md:px-8 md:pt-16">
           <p className="text-xs tracking-[0.22em] text-sage-deep uppercase">The apothecary &middot; {products.length} products</p>
           <h1 className="mt-4 max-w-3xl font-display text-5xl leading-[1.02] tracking-tight md:text-7xl">
@@ -88,9 +78,10 @@ export default function Shop() {
             </div>
           </div>
         </section>
-      </main>
 
-      <Footer />
-    </>
+        <div className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-20">
+          <NextLink href="/team" label="Meet the team" body="The estheticians, herbalists and nail techs who make it all." />
+        </div>
+    </PageShell>
   );
 }

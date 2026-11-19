@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Figtree, Fraunces } from "next/font/google";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import { BookDialog } from "@/components/ui/BookDialog";
+import { Header } from "@/components/ui/Header";
+import { Footer } from "@/components/ui/Footer";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -47,7 +49,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${fraunces.variable} ${figtree.variable}`}>
       <body className="font-sans">
         <SmoothScroll />
-        {children}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-juniper focus:px-4 focus:py-2 focus:text-cream"
+        >
+          Skip to content
+        </a>
+        <Header />
+        <main id="main" className="pt-16">
+          {children}
+        </main>
+        <Footer />
         <BookDialog />
       </body>
     </html>
