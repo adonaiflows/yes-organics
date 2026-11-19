@@ -1,13 +1,12 @@
-import { Header } from "@/components/ui/Header";
+import Link from "next/link";
 import { BookButton } from "@/components/ui/BookDialog";
-import { ServiceMenu } from "@/components/ui/ServiceMenu";
 import { Ticker } from "@/components/ui/Ticker";
-import { Reveal } from "@/components/ui/Reveal";
-import { Footer } from "@/components/ui/Footer";
+import { PageShell, secondaryBtn } from "@/components/ui/PageShell";
+import { GiftCertificates, Reviews, Specials, TeamGrid } from "@/components/ui/blocks";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { products } from "@/lib/products";
 import { HeroVisual } from "@/components/three/HeroVisual";
-import { links, locations, policy, reviews, specials, team } from "@/lib/site";
+import { links, locations, reviews, team } from "@/lib/site";
 
 // A few of the shop's own handmade products for the home page.
 const featured = ["Healing Salve", "Facial Oil", "Flower Power Toner", "Golden Glow Balm"]
@@ -17,24 +16,28 @@ const featured = ["Healing Salve", "Facial Oil", "Flower Power Toner", "Golden G
 const pillars = [
   {
     n: "01",
+    href: "/services#facials",
     title: "Organic facials",
     body: "Sixteen luxury facials, clinical treatments and herbal consultations, from $95.",
     tint: "bg-sand",
   },
   {
     n: "02",
+    href: "/services#lash-brow",
     title: "Lash & brow bar",
     body: "Lifts, tints, brow lamination and gentle face and body waxing.",
     tint: "bg-[#e6dccb]",
   },
   {
     n: "03",
+    href: "/services#nails",
     title: "Natural nails",
     body: "Healthy manicures and pedicures. No acrylics, no dip powder.",
     tint: "bg-[#dfe2cf]",
   },
   {
     n: "04",
+    href: "/services#massage",
     title: "Massage & Reiki",
     body: "Signature, hot stone and deep tissue massage, cupping, craniosacral and Reiki.",
     tint: "bg-[#ecd6c7]",
@@ -65,27 +68,12 @@ const jsonLd = {
   sameAs: [links.facebook, links.instagram],
 };
 
-function initials(name: string) {
-  return name
-    .split(" ")
-    .map((p) => p[0])
-    .slice(0, 2)
-    .join("");
-}
 
 export default function Home() {
   return (
-    <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-juniper focus:px-4 focus:py-2 focus:text-cream">
-        Skip to content
-      </a>
-      <Header />
-      <Reveal />
-
-      <main id="main">
+    <PageShell>
         {/* Hero */}
-        <section id="top" className="relative overflow-hidden pt-16">
+        <section id="top" className="relative overflow-hidden">
           <div className="mx-auto grid max-w-7xl items-center gap-6 px-4 pt-8 pb-14 md:px-8 lg:min-h-[calc(100svh-4rem)] lg:grid-cols-[1.1fr_1fr] lg:gap-10 lg:py-12">
             <div className="relative z-10">
               <p className="text-xs tracking-[0.22em] text-sage-deep uppercase">Albuquerque, New Mexico &middot; Open 7 days</p>
@@ -98,12 +86,9 @@ export default function Home() {
               </p>
               <div className="mt-7 flex flex-wrap items-center gap-3">
                 <BookButton />
-                <a
-                  href="#services"
-                  className="inline-flex min-h-12 items-center rounded-full border border-juniper/25 px-6 text-[0.95rem] transition-colors hover:border-juniper"
-                >
+                <Link href="/services" className={secondaryBtn}>
                   Services &amp; prices
-                </a>
+                </Link>
               </div>
               <figure className="mt-9 flex max-w-md items-start gap-3 border-l-2 border-clay/60 pl-4">
                 <blockquote className="font-display text-lg leading-snug italic">&ldquo;{reviews[0].quote}&rdquo;</blockquote>
@@ -129,92 +114,35 @@ export default function Home() {
           items={["Organic facials", "Herbal consultations", "Lash & brow bar", "Waxing", "Natural nails", "Massage", "Reiki", "Apothecary"]}
         />
 
-        {/* Social proof */}
-        <section aria-labelledby="love-title" className="mx-auto max-w-7xl px-4 py-20 md:px-8 md:py-28">
-          <h2 id="love-title" className="max-w-2xl font-display text-4xl tracking-tight md:text-5xl" data-reveal>
-            We love our customers, <span className="text-clay-deep italic">and they love us.</span>
-          </h2>
-          <ul className="mt-12 grid gap-6 md:grid-cols-3">
-            {reviews.map((r) => (
-              <li key={r.quote} className="flex flex-col justify-between rounded-3xl border border-juniper/10 bg-white/50 p-7" data-reveal>
-                <span aria-hidden className="font-display text-5xl leading-none text-clay/70">&ldquo;</span>
-                <blockquote className="mt-2 font-display text-xl leading-snug">{r.quote}</blockquote>
-                <p className="mt-6 text-sm tracking-[0.14em] text-muted uppercase">{r.by}</p>
-              </li>
-            ))}
-          </ul>
-          <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted" data-reveal>
-            <li className="flex items-center gap-2">
-              <span aria-hidden className="text-sage-deep">&#10045;</span> Authorized Eminence Organic Skin Care dealer
-            </li>
-            <li className="flex items-center gap-2">
-              <span aria-hidden className="text-sage-deep">&#10045;</span> New Mexico True Certified
-            </li>
-            <li className="flex items-center gap-2">
-              <span aria-hidden className="text-sage-deep">&#10045;</span> Two Albuquerque locations
-            </li>
-          </ul>
-        </section>
+        <Reviews />
 
         {/* What we do */}
         <section aria-labelledby="pillars-title" className="mx-auto max-w-7xl px-4 pb-20 md:px-8 md:pb-28">
-          <h2 id="pillars-title" className="sr-only">What we do</h2>
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="flex items-end justify-between gap-4" data-reveal>
+            <h2 id="pillars-title" className="font-display text-4xl tracking-tight md:text-5xl">
+              What we <span className="text-clay-deep italic">do</span>
+            </h2>
+            <Link href="/services" className="shrink-0 text-[0.95rem] font-medium text-clay-deep">
+              All services &amp; prices <span aria-hidden>&rarr;</span>
+            </Link>
+          </div>
+          <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {pillars.map((p) => (
               <li key={p.n} data-reveal>
-                <a href="#services" className={`arch group flex h-full min-h-[16rem] flex-col sm:min-h-[22rem] justify-end p-7 transition-transform hover:-translate-y-1 ${p.tint}`}>
+                <Link href={p.href} className={`arch group flex h-full min-h-[16rem] flex-col sm:min-h-[22rem] justify-end p-7 transition-transform hover:-translate-y-1 ${p.tint}`}>
                   <span className="font-display text-sm text-clay-deep">{p.n}</span>
                   <span className="mt-2 font-display text-2xl">{p.title}</span>
                   <span className="mt-2 text-[0.95rem] leading-relaxed text-muted">{p.body}</span>
                   <span className="mt-5 text-sm font-medium text-clay-deep">
                     See prices <span aria-hidden className="inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
                   </span>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
         </section>
 
-        {/* Menu */}
-        <section id="services" aria-labelledby="services-title" className="bg-white/45 py-20 md:py-28">
-          <div className="mx-auto max-w-7xl px-4 md:px-8">
-            <p className="text-xs tracking-[0.22em] text-sage-deep uppercase">By appointment</p>
-            <h2 id="services-title" className="mt-3 font-display text-4xl tracking-tight md:text-6xl">
-              Services <span className="text-clay-deep italic">&amp; prices</span>
-            </h2>
-            <div className="mt-10">
-              <ServiceMenu />
-            </div>
-            <p className="mt-12 max-w-2xl text-sm text-muted">{policy}</p>
-          </div>
-        </section>
-
-        {/* Specials */}
-        <section aria-labelledby="specials-title" className="bg-juniper py-20 text-cream md:py-28">
-          <div className="mx-auto grid max-w-7xl gap-12 px-4 md:px-8 lg:grid-cols-[1fr_1.4fr]">
-            <div data-reveal>
-              <p className="text-xs tracking-[0.22em] text-sage uppercase">Seasonal</p>
-              <h2 id="specials-title" className="mt-3 font-display text-4xl tracking-tight md:text-5xl">
-                Spa <span className="italic text-[#e6a585]">specials</span>
-              </h2>
-              <p className="mt-4 max-w-sm text-cream/75">Limited treatments from the spa and the nail boutique. Lash and brow specials coming soon.</p>
-              <div className="mt-8">
-                <BookButton variant="light">Book a special</BookButton>
-              </div>
-            </div>
-            <ul className="grid gap-x-10 sm:grid-cols-2" data-reveal>
-              {specials.map((s) => (
-                <li key={s.name} className="flex items-baseline justify-between gap-4 border-b border-cream/15 py-5">
-                  <span>
-                    <span className="block font-display text-lg">{s.name}</span>
-                    <span className="block text-sm text-cream/65">{[s.time, s.note].filter(Boolean).join(" · ")}</span>
-                  </span>
-                  <span className="font-display text-lg">{s.price}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+        <Specials />
 
         {/* Apothecary */}
         <section id="apothecary" aria-labelledby="apothecary-title" className="mx-auto max-w-7xl px-4 py-20 md:px-8 md:py-28">
@@ -246,37 +174,24 @@ export default function Home() {
                 curbside? Call {locations[0].phone} to set a pickup time.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href="/shop" className="inline-flex min-h-12 items-center rounded-full bg-clay-deep px-7 font-medium text-cream transition-colors hover:bg-juniper">
+                <Link href="/shop" className="inline-flex min-h-12 items-center rounded-full bg-clay-deep px-7 font-medium text-cream transition-colors hover:bg-juniper">
                   Shop the apothecary
-                </a>
+                </Link>
                 <a href={links.etsy} target="_blank" rel="noopener" className="inline-flex min-h-12 items-center rounded-full border border-juniper/25 px-6 transition-colors hover:border-juniper">
                   Our Etsy shop
                 </a>
               </div>
-              <div className="mt-10 rounded-3xl border border-juniper/10 bg-white/50 p-6">
-                <h3 className="font-display text-xl">Gift certificates</h3>
-                <p className="mt-1 text-sm text-muted">Bought online through Square. Gift certificates are non-refundable.</p>
-                <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-                  <li>
-                    <a href={links.giftSpa} target="_blank" rel="noopener" className="flex min-h-11 items-center justify-between rounded-xl bg-sand px-4 text-[0.95rem] transition-colors hover:bg-sand-deep">
-                      Store &amp; spa <span aria-hidden>&rarr;</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href={links.giftNails} target="_blank" rel="noopener" className="flex min-h-11 items-center justify-between rounded-xl bg-sand px-4 text-[0.95rem] transition-colors hover:bg-sand-deep">
-                      Nails &amp; massage <span aria-hidden>&rarr;</span>
-                    </a>
-                  </li>
-                </ul>
+              <div className="mt-10">
+                <GiftCertificates />
               </div>
             </div>
           </div>
           <div className="mt-16" data-reveal>
             <div className="flex items-end justify-between gap-4">
               <h3 className="font-display text-2xl md:text-3xl">From the apothecary</h3>
-              <a href="/shop" className="shrink-0 text-[0.95rem] font-medium text-clay-deep">
+              <Link href="/shop" className="shrink-0 text-[0.95rem] font-medium text-clay-deep">
                 See all {products.length} products <span aria-hidden>&rarr;</span>
-              </a>
+              </Link>
             </div>
             <ul className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
               {featured.map((p) => (
@@ -288,92 +203,58 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Team */}
-        <section id="team" aria-labelledby="team-title" className="bg-sand/60 py-20 md:py-28">
+        {/* Team teaser */}
+        <section aria-labelledby="team-title" className="bg-sand/60 py-20 md:py-28">
           <div className="mx-auto max-w-7xl px-4 md:px-8">
-            <p className="text-xs tracking-[0.22em] text-sage-deep uppercase">Meet the team</p>
-            <h2 id="team-title" className="mt-3 max-w-3xl font-display text-4xl tracking-tight md:text-5xl">
-              Estheticians, herbalists, nail techs <span className="text-clay-deep italic">&amp; healers</span>
-            </h2>
-            {/* TODO: add staff photos once uploaded; initials stand in until then. */}
-            <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {team.map((t) => (
-                <li key={t.name} className="flex gap-4 rounded-3xl bg-cream/80 p-5" data-reveal>
-                  <span aria-hidden className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-juniper font-display text-lg text-cream">
-                    {initials(t.name)}
-                  </span>
-                  <span>
-                    <span className="block font-display text-lg leading-tight">{t.name}</span>
-                    <span className="block text-xs tracking-[0.14em] text-clay-deep uppercase">{t.role}</span>
-                    <span className="mt-2 block text-[0.95rem] leading-relaxed text-muted">{t.note}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <div className="flex flex-wrap items-end justify-between gap-4" data-reveal>
+              <div>
+                <p className="text-xs tracking-[0.22em] text-sage-deep uppercase">Meet the team</p>
+                <h2 id="team-title" className="mt-3 max-w-3xl font-display text-4xl tracking-tight md:text-5xl">
+                  Estheticians, herbalists, nail techs <span className="text-clay-deep italic">&amp; healers</span>
+                </h2>
+              </div>
+              <Link href="/team" className="shrink-0 text-[0.95rem] font-medium text-clay-deep">
+                Meet all {team.length} <span aria-hidden>&rarr;</span>
+              </Link>
+            </div>
+            <div className="mt-12">
+              <TeamGrid limit={3} />
+            </div>
           </div>
         </section>
 
-        {/* Visit / book */}
-        <section id="visit" aria-labelledby="visit-title" className="mx-auto max-w-7xl px-4 py-20 md:px-8 md:py-28">
-          <span id="book" />
-          <h2 id="visit-title" className="font-display text-4xl tracking-tight md:text-6xl">
-            Two places <span className="text-clay-deep italic">to unwind</span>
-          </h2>
-          <ul className="mt-12 grid gap-6 lg:grid-cols-2">
+        {/* Visit teaser */}
+        <section aria-labelledby="visit-title" className="mx-auto max-w-7xl px-4 py-20 md:px-8 md:py-28">
+          <div className="flex flex-wrap items-end justify-between gap-4" data-reveal>
+            <h2 id="visit-title" className="font-display text-4xl tracking-tight md:text-6xl">
+              Two places <span className="text-clay-deep italic">to unwind</span>
+            </h2>
+            <Link href="/visit" className="shrink-0 text-[0.95rem] font-medium text-clay-deep">
+              Hours, directions &amp; booking <span aria-hidden>&rarr;</span>
+            </Link>
+          </div>
+          <ul className="mt-10 grid gap-4 md:grid-cols-2">
             {locations.map((l) => (
-              <li key={l.name} className="flex flex-col rounded-3xl border border-juniper/10 bg-white/55 p-7 md:p-9" data-reveal>
-                <h3 className="font-display text-2xl md:text-3xl">{l.name}</h3>
-                <p className="mt-2 text-muted">{l.offers}</p>
-                <dl className="mt-6 grid gap-4 text-[0.95rem] sm:grid-cols-2">
-                  <div>
-                    <dt className="text-xs tracking-[0.16em] text-sage-deep uppercase">Address</dt>
-                    <dd className="mt-1">
-                      <a href={l.map} target="_blank" rel="noopener" className="underline decoration-juniper/30 underline-offset-4 hover:decoration-clay-deep">
-                        {l.street}
-                        <br />
-                        {l.city}
-                      </a>
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-xs tracking-[0.16em] text-sage-deep uppercase">Hours</dt>
-                    <dd className="mt-1">{l.hours ?? "Call for hours"}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-xs tracking-[0.16em] text-sage-deep uppercase">Phone</dt>
-                    <dd className="mt-1">
-                      <a href={`tel:${l.tel}`} className="underline decoration-juniper/30 underline-offset-4 hover:decoration-clay-deep">
-                        {l.phone}
-                      </a>
-                    </dd>
-                  </div>
-                  <div className="sm:col-span-2">
-                    <dt className="text-xs tracking-[0.16em] text-sage-deep uppercase">Email</dt>
-                    <dd className="mt-1 [overflow-wrap:anywhere]">
-                      <a href={`mailto:${l.email}`} className="underline decoration-juniper/30 underline-offset-4 hover:decoration-clay-deep">
-                        {l.email}
-                      </a>
-                    </dd>
-                  </div>
-                </dl>
-                <a
-                  href={l.book}
-                  target="_blank"
-                  rel="noopener"
-                  className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 self-start rounded-full bg-clay-deep px-7 font-medium text-cream transition-colors hover:bg-juniper"
+              <li key={l.name} data-reveal>
+                <Link
+                  href="/visit"
+                  className="group flex h-full flex-col rounded-3xl border border-juniper/10 bg-white/55 p-7 transition-colors hover:border-juniper/30 md:p-9"
                 >
-                  Book at {l.name.includes("Nail") ? "the Nail Boutique" : "the Spa"} <span aria-hidden>&rarr;</span>
-                </a>
+                  <span className="font-display text-2xl md:text-3xl">{l.name}</span>
+                  <span className="mt-2 text-muted">{l.offers}</span>
+                  <span className="mt-5 text-[0.95rem]">
+                    {l.street}, {l.city}
+                  </span>
+                  <span className="text-[0.95rem] text-muted">{l.hours ?? "Call for hours"}</span>
+                  <span className="mt-5 text-sm font-medium text-clay-deep">
+                    Visit &amp; book <span aria-hidden className="inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>
-          <p className="mt-8 max-w-2xl text-sm text-muted">
-            {policy} As a natural nail salon, we don&rsquo;t offer acrylic or dip powder nails, or their removal.
-          </p>
         </section>
-      </main>
-
-      <Footer />
-    </>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+    </PageShell>
   );
 }

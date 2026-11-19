@@ -6,7 +6,7 @@ import { links } from "@/lib/site";
 const OPEN_EVENT = "yes:book";
 
 // The spa and the nail boutique book through separate Square pages, so "Book" first asks which one.
-// Without JS the button is a plain link to the #book section, which lists both.
+// Without JS the button is a plain link to the Visit page, which lists both, which lists both.
 export function BookButton({
   children = "Book an appointment",
   variant = "solid",
@@ -23,7 +23,7 @@ export function BookButton({
   }[variant];
   return (
     <a
-      href="#book"
+      href="/visit#book"
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();

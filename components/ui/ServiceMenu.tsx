@@ -1,12 +1,23 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { links, menus } from "@/lib/site";
 
 // Tabbed price menu. Every panel is in the server HTML; tabs only toggle which one shows.
 export function ServiceMenu() {
   const [active, setActive] = useState(menus[0].id);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Deep links such as /services#nails open that menu (the home page cards use them).
+  useEffect(() => {
+    const pick = () => {
+      const id = window.location.hash.slice(1);
+      if (menus.some((m) => m.id === id)) setActive(id);
+    };
+    pick();
+    window.addEventListener("hashchange", pick);
+    return () => window.removeEventListener("hashchange", pick);
+  }, []);
 
   const onKey = (e: React.KeyboardEvent, i: number) => {
     const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
